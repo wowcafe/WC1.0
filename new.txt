@@ -1,2 +1,0 @@
-This is settings file.
-this is the new line to gitflow workflow test
