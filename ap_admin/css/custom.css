@@ -1,0 +1,7 @@
+h2.loginHeader{
+    text-align:center;
+}
+a.addButtonForVendor{
+    float: right;
+    margin-bottom: 10px;
+}
