@@ -1,8 +1,19 @@
 <?php include 'include/header.php'; 
+$CATwhere = "";
+$RESwhere = "";
+if(isset($_GET['selectedcatid']) && $_GET['selectedcatid']!="")
+    $CATwhere = 'AND menu.`menuCategoryId` = '.$_GET['selectedcatid'];
+
+if(isset($_GET['selectedresturantid']) && $_GET['selectedresturantid']!="")
+    $RESwhere = 'AND menu.`restaurentId` = '.$_GET['selectedresturantid'];
+
+
 $sql = 'SELECT menu.`id`, 
                menu.`menuName`,
                menu.`menuPrice`,
-               menu.`menuType`, 
+               menu.`menuType`,
+               menu.`menuCategoryId`,
+               menu.`restaurentId`,
                category.categoryName as `category`, 
                resturant.restaurentName as `resturant` 
                FROM 
@@ -11,8 +22,8 @@ $sql = 'SELECT menu.`id`,
                `Restaurantlist` as `resturant` 
                WHERE 
                menu.`menuCategoryId` = category.`id` 
-               AND 
-               resturant.`id` = menu.`restaurentId`';
+               AND                                   
+               resturant.`id` = menu.`restaurentId`'.$CATwhere.$RESwhere;
 $query = mysqli_query($conn,$sql);
 ?>
 <body>
@@ -68,8 +79,8 @@ $query = mysqli_query($conn,$sql);
 							<td><?php echo $row['menuName'] ?></td>
                             <td><?php echo $row['menuPrice'] ?></td>
 							<td><?php echo $row['menuType'] ?></td>
-							<td><?php echo $row['category'] ?></td>
-                            <td><?php echo $row['resturant'] ?></td>
+							<td><a href="menulist.php?selectedcatid=<?php echo $row['menuCategoryId'] ?>"><?php echo $row['category'] ?></a></td>
+                            <td><a href="menulist.php?selectedresturantid=<?php echo $row['restaurentId'] ?>"><?php echo $row['resturant'] ?></a></td>
 							<td><a href="edit_menu.php?menuID=<?php echo $row['id'] ?>">Edit</a></td>
                             <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletemenu&menuID=<?php echo $row['id'] ?>">delete</td>
 						</tr>

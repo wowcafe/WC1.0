@@ -44,6 +44,7 @@ $query = mysqli_query($conn,$sql);
     							<th>Description</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
+                                <th>View menu</th>
     						</tr>
     					</thead>
 					<tbody>
@@ -53,6 +54,7 @@ $query = mysqli_query($conn,$sql);
                             <td><?php echo $row['categoryDescription'] ?></td>
 							<td><a href="edit_menu.php?menuID=<?php echo $row['id'] ?>">Edit</a></td>
                             <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletemenu&menuID=<?php echo $row['id'] ?>">delete</td>
+						    <td><a href="menulist.php?selectedcatid=<?php echo $row['id'] ?>">delete</td>
 						</tr>
                         <?php } ?>
 					</tbody>
