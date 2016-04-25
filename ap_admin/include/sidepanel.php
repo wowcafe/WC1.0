@@ -19,6 +19,7 @@
                     <ul class="submenu">
                         <li><a <?php echo (basename($_SERVER['PHP_SELF']) == 'postcodelist.php')? 'class="act"' : ''; ?> href="postcodelist.php">View all</a> </li>
                         <li><a <?php echo (basename($_SERVER['PHP_SELF']) == 'add_postcode.php')? 'class="act"' : ''; ?> href="add_postcode.php">Add</a> </li>
+                        <li><a <?php echo (basename($_SERVER['PHP_SELF']) == 'trash_postcodelist.php')? 'class="act"' : ''; ?> href="trash_postcodelist.php">Removed</a> </li>
                     </ul>
                 </li>
                 <li><a class="menuitem">Menu category</a>

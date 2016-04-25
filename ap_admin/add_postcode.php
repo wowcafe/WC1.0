@@ -76,11 +76,13 @@ function addpostcode(pincode,Address,City,State,identifier){
                 <div class="block ">
                     <table class="form">
                         <tr>
-                            <td>
+                            <td style="width: 150px;">
                                 <label>Enter new pincode</label>
                             </td>
-                            <td>
+                            <td style="width: 200px;">
                                 <input type="text" name="Pincode" onkeyup="postcodevalidation(this.value)" onkeypress="return IsNumeric(event);" onpaste="return false;" ondrop = "return false;" maxlength="6"/>
+                            </td>
+                            <td>
                                 <span class="error postCodevalidationError" style="display: none;">This is a required field.</span>
                             </td>
                         </tr>

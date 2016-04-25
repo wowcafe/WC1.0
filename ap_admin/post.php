@@ -29,9 +29,20 @@ if(isset($_POST['submit']) || isset($_GET))
         $query  = mysqli_query($conn,$sql);
         if(mysqli_num_rows($query) == 1)
         {
-            $response['status'] = 'error';
-            $response['message']= 'Pincode allready added';
-            $response['body']   = array();
+            $queryOfdeliverPostcode = mysqli_fetch_assoc($query);
+            if($queryOfdeliverPostcode['status']=='deactive')
+            {
+                $response['status'] = 'error';
+                $response['message']= 'Pincode added but deactivate. <a href="post.php?action=restorepostcode&postcodeId='.$queryOfdeliverPostcode['id'].'">Click here</a> to restore it.';
+                $response['body']   = array();
+            }
+            else
+            {
+                $response['status'] = 'error';
+                $response['message']= 'Pincode allready added';
+                $response['body']   = array();
+            }
+            
         } 
         else
         {
@@ -220,6 +231,34 @@ if(isset($_POST['submit']) || isset($_GET))
                         WHERE `id`=".$_GET['catID'];
         mysqli_query($conn,$queryString);
         header('Location:menucategorylist.php');
+    }
+    if($_GET['action'] == 'deletepostcode')
+    {
+        if(trim($_GET['postcodeId']) == "")
+        {    
+            header('Location:postcodelist.php');
+            die();
+        }
+            
+        $queryString = "UPDATE `deliveryPostcode` SET
+                        `status`            = 'deactive'
+                        WHERE `id`=".$_GET['postcodeId'];
+        mysqli_query($conn,$queryString);
+        header('Location:postcodelist.php');
+    }
+    if($_GET['action'] == 'restorepostcode')
+    {
+        if(trim($_GET['postcodeId']) == "")
+        {    
+            header('Location:postcodelist.php');
+            die();
+        }
+            
+        $queryString = "UPDATE `deliveryPostcode` SET
+                        `status`            = 'active'
+                        WHERE `id`=".$_GET['postcodeId'];
+        mysqli_query($conn,$queryString);
+        header('Location:postcodelist.php');
     }
 } else {
     echo "error";

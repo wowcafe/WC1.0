@@ -1,5 +1,5 @@
 <?php include 'include/header.php'; 
-$sql = 'SELECT * FROM `deliveryPostcode` WHERE `status` = "active"';
+$sql = 'SELECT * FROM `deliveryPostcode` WHERE `status` = "deactive"';
 $query = mysqli_query($conn,$sql);
 ?>
 <body>
@@ -23,10 +23,9 @@ $query = mysqli_query($conn,$sql);
                                 <th>Postcode</th>
     							<th>Address</th>
                                 <th>City</th>
-                                <th>statename</th>
+                                <th>statename</th> 
                                 <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Restore</th>
     						</tr>
     					</thead>
 					<tbody>
@@ -37,8 +36,7 @@ $query = mysqli_query($conn,$sql);
 							<td><?php echo $row['city'] ?></td>
 							<td><?php echo $row['statename'] ?></td>
                             <td><?php echo $row['status'] ?></td>
-							<td><a href="edit_vendor.php?vendorID=<?php echo $row['id'] ?>">Edit</a></td>
-                            <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletepostcode&postcodeId=<?php echo $row['id'] ?>">delete</td>
+							<td><a onclick="return confirm('Are you sure, you want to restore it?')" href="post.php?action=restorepostcode&postcodeId=<?php echo $row['id'] ?>">Restore</td>
 						</tr>
                         <?php } ?>
 					</tbody>
