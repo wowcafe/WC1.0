@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $dbHost                 = 'localhost';
     $dbUserName             = 'ap_user';
     $dbPassword             = 'xPYG7Zi0';

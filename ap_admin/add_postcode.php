@@ -63,27 +63,7 @@ function addpostcode(pincode,Address,City,State,identifier){
 </script>
 <body>
     <div class="container_12">
-        <div class="grid_12 header-repeat">
-            <div id="branding">
-                <div class="floatleft">
-                    <img src="img/logo.png" alt="Logo" /></div>
-                <div class="floatright">
-                    <div class="floatleft">
-                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
-                    <div class="floatleft marginleft10">
-                        <ul class="inline-ul floatleft">
-                            <li>Hello <?php echo $_SESSION['username'] ?></li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="post.php?action=logout">Logout</a></li>
-                        </ul>
-                        <br />
-                        <span class="small grey">Last Login: 3 hours ago</span>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-            </div>
-        </div>
+        <?php include 'include/subheader.php'; ?>
         <div class="clear">
         </div>
         <?php include 'include/navpanel.php'; ?>

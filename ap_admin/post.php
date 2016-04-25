@@ -1,27 +1,7 @@
 <?php
-session_start();
 if(isset($_POST['submit']) || isset($_GET))
 {
-    $dbHost                 = 'localhost';
-    $dbUserName             = 'ap_user';
-    $dbPassword             = 'xPYG7Zi0';
-    $dbSelect               = 'ap_webservicetest';
-    $dbPrefix               = 'ap_';
-    $conn                   = new mysqli($dbHost, $dbUserName, $dbPassword);
-    if ($conn->connect_error) 
-    {
-        echo "Database connection error";
-        die();
-    }
-    else
-    {
-        $dbconn = mysqli_select_db($conn,$dbSelect);
-        if(!$dbconn)
-        {
-            echo "Database not found";
-            die();
-        }
-    }
+    include 'include/connect.php';
     
     if($_POST['submit'] == 'submitForLogin')
     {
@@ -97,17 +77,21 @@ if(isset($_POST['submit']) || isset($_GET))
     }
     if($_POST['submit'] == 'submitForSaveVendor')
     {
-        $queryString =  "INSERT INTO `Restaurantlist` SET
-                        `restaurentName`        = '".str_replace("'","\'",$_POST['Name'])."',
-                        `restaurentStreet`      = '".$_POST['street']."',
-                        `restaurentCity`        = '".$_POST['city']."',
-                        `restaurentPinCode`     = '".$_POST['Pincode']."',
-                        `restaurentDistrict`    = '".$_POST['district']."',
-                        `restaurentLogo`        = '".$_POST['']."',
-                        `restaurentType`        = '".$_POST['type']."',
-                        `restaurentPhone`       = '".$_POST['phone']."',
-                        `restaurentEmail`       = '".$_POST['email']."'";
-        mysqli_query($conn,$queryString);
+        $target_file = "upload/vendorIimage/".basename($_FILES["vendorimage"]["name"]);
+        move_uploaded_file($_FILES["vendorimage"]["tmp_name"], $target_file);
+        
+        $queryString =  "INSERT INTO `Vendorlist` SET
+                        `vendorName`        = '".str_replace("'","\'",$_POST['Name'])."',
+                        `vendorStreet`      = '".$_POST['street']."',
+                        `vendorCity`        = '".$_POST['city']."',
+                        `vendorPinCode`     = '".$_POST['Pincode']."',
+                        `vendorDistrict`    = '".$_POST['district']."',
+                        `vendorImage`        = '".$target_file."',
+                        `vendorType`        = '".$_POST['type']."',
+                        `vendorPhone`       = '".$_POST['phone']."',
+                        `vendorWebsite`     = '".$_POST['webaddress']."',
+                        `vendorEmail`       = '".$_POST['email']."'";
+        mysqli_query($conn,$queryString); 
         header('Location:vendorlist.php');
     }
     if($_POST['submit'] == 'submitForSaveMenuCategory')
@@ -120,18 +104,33 @@ if(isset($_POST['submit']) || isset($_GET))
     }
     if($_POST['submit'] == 'submitForUpdateVendor')
     {
-        $queryString =  "UPDATE `Restaurantlist` SET
-                        `restaurentName`        = '".$_POST['Name']."',
-                        `restaurentStreet`      = '".$_POST['street']."',
-                        `restaurentCity`        = '".$_POST['city']."',
-                        `restaurentPinCode`     = '".$_POST['Pincode']."',
-                        `restaurentDistrict`    = '".$_POST['district']."',
-                        `restaurentLogo`        = '".$_POST['']."',
-                        `restaurentType`        = '".$_POST['type']."',
-                        `restaurentPhone`       = '".$_POST['phone']."',
-                        `restaurentEmail`       = '".$_POST['email']."'
-                        WHERE `id`=".$_POST['vendorID'];
+        echo $queryString =  "UPDATE `Vendorlist` SET
+                        `".$_POST['field']."` = '".str_replace("'","\'",$_POST['value'])."'
+                        WHERE `id`=".$_POST['id'];
         mysqli_query($conn,$queryString);
+    }
+    if($_POST['submit'] == 'sumbitForAddMenuToVendor')
+    {
+        $queryString =  "INSERT INTO `MenuDetails` SET
+                        `menuName`          = '".str_replace("'","\'",$_POST['Name'])."',
+                        `menuPrice`         = '".$_POST['Price']."',
+                        `menuType`          = '".$_POST['type']."',
+                        `menuDescription`   = '".$_POST['description']."',
+                        `menuCategoryId`    = '".$_POST['categories']."',
+                        `vendorId`          = '".$_POST['vendorId']."'";
+        mysqli_query($conn,$queryString); 
+        header('Location:vendorlist.php');
+    }
+    if($_POST['submit'] == 'sumbitForUpdateMenuToVendor')
+    {
+        $queryString =  "UPDATE `MenuDetails` SET
+                        `menuName`          = '".str_replace("'","\'",$_POST['Name'])."',
+                        `menuPrice`         = '".$_POST['Price']."',
+                        `menuType`          = '".$_POST['type']."',
+                        `menuDescription`   = '".$_POST['description']."',
+                        `menuCategoryId`    = '".$_POST['categories']."'
+                        WHERE `id`=".$_POST['menuId'];
+        mysqli_query($conn,$queryString); 
         header('Location:vendorlist.php');
     }
     if($_GET['action'] == 'logout')
@@ -140,7 +139,33 @@ if(isset($_POST['submit']) || isset($_GET))
         session_destroy();
         header('Location:index.php');
     }
-    if($_GET['action'] == 'deleteVendor')
+    if($_GET['action'] == 'deletemenu')
+    {
+        if(trim($_GET['menuID']) == "")
+        {    
+            header('Location:vendorlist.php');
+            die();
+        }
+        $queryString =  "UPDATE `MenuDetails` SET
+                        `status`            = 'deactive'
+                        WHERE `id`=".$_GET['menuID'];
+        mysqli_query($conn,$queryString);
+        header('Location:menulist.php?selectedcatid='.$_GET['selectedcatid'].'&selectedvendorid='.$_GET['selectedvendorid']);
+    }
+    if($_GET['action'] == 'restoremenu')
+    {
+        if(trim($_GET['menuID']) == "")
+        {    
+            header('Location:vendorlist.php');
+            die();
+        }
+        $queryString =  "UPDATE `MenuDetails` SET
+                        `status`            = 'active'
+                        WHERE `id`=".$_GET['menuID'];
+        mysqli_query($conn,$queryString);
+        header('Location:menulist.php?selectedcatid='.$_GET['selectedcatid'].'&selectedvendorid='.$_GET['selectedvendorid']);
+    }
+    if($_GET['action'] == 'deletevendor')
     {
         if(trim($_GET['vendorID']) == "")
         {    
@@ -148,9 +173,53 @@ if(isset($_POST['submit']) || isset($_GET))
             die();
         }
             
-        $queryString = 'DELETE FROM `Restaurantlist` WHERE `id` = '.$_GET['vendorID'];
+        $queryString = "UPDATE `Vendorlist` SET
+                        `status`            = 'deactive'
+                        WHERE `id`=".$_GET['vendorID'];
         mysqli_query($conn,$queryString);
         header('Location:vendorlist.php');
+    }
+    if($_GET['action'] == 'restorevendor')
+    {
+        if(trim($_GET['vendorID']) == "")
+        {    
+            header('Location:vendorlist.php');
+            die();
+        }
+            
+        $queryString = "UPDATE `Vendorlist` SET
+                        `status`            = 'active'
+                        WHERE `id`=".$_GET['vendorID'];
+        mysqli_query($conn,$queryString);
+        header('Location:vendorlist.php');
+    }
+    if($_GET['action'] == 'deletemenucategory')
+    {
+        if(trim($_GET['catID']) == "")
+        {    
+            header('Location:menucategorylist.php');
+            die();
+        }
+            
+        $queryString = "UPDATE `MenuCategory` SET
+                        `status`            = 'deactive'
+                        WHERE `id`=".$_GET['catID'];
+        mysqli_query($conn,$queryString);
+        header('Location:menucategorylist.php');
+    }
+    if($_GET['action'] == 'restoremenucategory')
+    {
+        if(trim($_GET['catID']) == "")
+        {    
+            header('Location:menucategorylist.php');
+            die();
+        }
+            
+        $queryString = "UPDATE `MenuCategory` SET
+                        `status`            = 'active'
+                        WHERE `id`=".$_GET['catID'];
+        mysqli_query($conn,$queryString);
+        header('Location:menucategorylist.php');
     }
 } else {
     echo "error";

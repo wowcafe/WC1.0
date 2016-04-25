@@ -1,12 +1,14 @@
 <?php include 'include/header.php'; 
 $sql = 'SELECT 
         `id`,
-        `CustomerName`,
-        `CustomerEmail`,
-        `CustomerUserName`,
-        `CustomerLoginTime`,
-        `CustomerLoginType`
-        FROM `Customer`';
+        `vendorName`,
+        `vendorPinCode`,
+        `vendorPhone`,
+        `vendorEmail`,
+        `vendorImage`
+        FROM `Vendorlist`
+        WHERE `status`="deactive"
+        ORDER BY `order_index` ASC';
 $query = mysqli_query($conn,$sql);
 ?>
 <body>
@@ -23,27 +25,28 @@ $query = mysqli_query($conn,$sql);
                 <h2>
                     Vendors</h2>
                 <div class="block">
+                <a href="add_vendor.php" class="btn-icon btn-grey btn-plus addButtonForVendor"><span></span>Add</a>
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
+                            <th>Image</th>
                             <th>Name</th>
-							<th>Username</th>
+							<th>PinCode</th>
+							<th>Phone</th>
 							<th>Email</th>
-							<th>Login Type</th>
-                            <th>login Time</th>
-                            <th>Details</th>
+                            <th>Restore</th>
 						</tr>
 					</thead>
 					<tbody>
                         <?php while($row = mysqli_fetch_assoc($query)) { ?>
 						<tr class="odd gradeX">
-							<td><?php echo $row['CustomerName'] ?></td>
-							<td><?php echo $row['CustomerEmail'] ?></td>
-							<td><?php echo $row['CustomerUserName'] ?></td>
-							<td><?php echo $row['CustomerLoginType'] ?></td>
-                            <td><?php echo $row['CustomerLoginTime'] ?></td>
-                            <td><a href="view_customer.php?vendorID=<?php echo $row['id'] ?>">Details</a></td>
-                        </tr>
+							<td><img src="<?php echo $row['vendorImage'] ?>" height="30" width="30" /></td>
+                            <td><?php echo $row['vendorName'] ?></td>
+							<td><?php echo $row['vendorPinCode'] ?></td>
+							<td><?php echo $row['vendorPhone'] ?></td>
+							<td><?php echo $row['vendorEmail'] ?></td>
+                            <td><a onclick="return confirm('Are you sure you want to restore it?')" href="post.php?action=restorevendor&vendorID=<?php echo $row['id'] ?>">Restore</td>
+						</tr>
                         <?php } ?>
 					</tbody>
 				</table>

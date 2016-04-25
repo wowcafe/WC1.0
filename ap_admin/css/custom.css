@@ -5,3 +5,64 @@ a.addButtonForVendor{
     float: right;
     margin-bottom: 10px;
 }
+a.instantEdit, a.instantSave{
+    background: none !important;
+    color: #000 !important;
+    display: inline-block !important;
+    float: right !important;
+    cursor: pointer !important;
+}
+a.saveeditlink{
+    display: none !important;
+}
+a.instantEdit:hover, a.instantSave:hover{
+    background:none !important;
+}
+.vendorDetails{
+    list-style: none !important;
+    width: 67%;
+    display: inline-block;
+}
+.vendorDetails li{
+    margin: 0 !important;
+}
+p.labelIdentifier{
+    float: left;
+    font-weight: bold;
+    margin: 0 10px 0 0;
+    width: 55px;
+}
+.blockextension{
+    height: auto;
+    display: inline-block;
+    width: 100%;
+}
+.startextension{
+    display: inline-block;
+    float: left;
+    width: 33%;
+    height: 200px;
+}
+.headerextension{
+    display: inline-block;
+    width: 67%;
+}
+select.error{
+    background: #fbe3e4 !important;
+}
+.btnfloat{
+    float: left;
+}
+.customBackButton{
+    background: #000 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    height: 33px;
+    line-height: 30px;
+    margin-left: 20px;
+    text-align: center;
+    width: 63px;
+}
+.act{
+    background: #e6f0f3 !important;
+}

@@ -1,30 +1,11 @@
 <?php include 'include/header.php'; 
-$sql = 'SELECT * FROM `MenuCategory`';
+$sql = 'SELECT * FROM `MenuCategory`
+        WHERE `status`="active"';
 $query = mysqli_query($conn,$sql);
 ?>
 <body>
     <div class="container_12">
-        <div class="grid_12 header-repeat">
-            <div id="branding">
-                <div class="floatleft">
-                    <img src="img/logo.png" alt="Logo" /></div>
-                <div class="floatright">
-                    <div class="floatleft">
-                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
-                    <div class="floatleft marginleft10">
-                        <ul class="inline-ul floatleft">
-                            <li>Hello <?php echo $_SESSION['username'] ?></li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="post.php?action=logout">Logout</a></li>
-                        </ul>
-                        <br />
-                        <span class="small grey">Last Login: 3 hours ago</span>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-            </div>
-        </div>
+        <?php include 'include/subheader.php'; ?>
         <div class="clear">
         </div>
         <?php include 'include/navpanel.php'; ?>
@@ -44,7 +25,6 @@ $query = mysqli_query($conn,$sql);
     							<th>Description</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                                <th>View menu</th>
     						</tr>
     					</thead>
 					<tbody>
@@ -52,10 +32,9 @@ $query = mysqli_query($conn,$sql);
 						<tr class="odd gradeX">
 							<td><?php echo $row['categoryName'] ?></td>
                             <td><?php echo $row['categoryDescription'] ?></td>
-							<td><a href="edit_menu.php?menuID=<?php echo $row['id'] ?>">Edit</a></td>
-                            <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletemenu&menuID=<?php echo $row['id'] ?>">delete</td>
-						    <td><a href="menulist.php?selectedcatid=<?php echo $row['id'] ?>">delete</td>
-						</tr>
+							<td><a href="edit_menucategory.php?menuID=<?php echo $row['id'] ?>">Edit</a></td>
+                       	    <td><a href="post.php?action=deletemenucategory&catID=<?php echo $row['id'] ?>">Edit</a></td>
+                           </tr>
                         <?php } ?>
 					</tbody>
 				</table>

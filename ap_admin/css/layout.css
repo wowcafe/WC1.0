@@ -1014,7 +1014,7 @@ td.details {
 
 	.btn-icon.btn-small span { top: 4px; }
 	.btn-icon.btn-large span { top: 12px; }
-	@-moz-document url-prefix() { .btn-icon span { left: -24px; top: 0px; } .btn-icon.btn-small span { top: -1px; } .btn-icon.btn-large span { top: 4px; } } 
+	@-moz-document url-prefix() {.btn-icon.btn-small span { top: -1px; } .btn-icon.btn-large span { top: 4px; } } 
 
 
 /* Mini Buttons */

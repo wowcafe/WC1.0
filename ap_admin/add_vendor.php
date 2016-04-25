@@ -8,6 +8,7 @@ function errorcheck(inputType,inputName)
         $("input[name="+inputName+"]").removeClass('error');
 }
 function validateForm() {
+    
     var Name        = document.forms["addvendor"]["Name"];
     var Pincode     = document.forms["addvendor"]["Pincode"];
     var street      = document.forms["addvendor"]["street"];
@@ -16,6 +17,10 @@ function validateForm() {
     var type        = document.forms["addvendor"]["type"];
     var phone       = document.forms["addvendor"]["phone"];
     var email       = document.forms["addvendor"]["email"];
+    var vendorimage = document.forms["addvendor"]["vendorimage"].value.split(".");
+    var extensionOf = vendorimage[vendorimage.length - 1];
+    
+    $(".errorspan").hide();
     
     errorcheck(Name,'Name');
     errorcheck(Pincode,'Pincode');
@@ -26,6 +31,12 @@ function validateForm() {
     errorcheck(phone,'phone');
     errorcheck(email,'email');
     
+    if(!(extensionOf.toLowerCase() == 'jpg' ||extensionOf.toLowerCase() == 'jpeg'||extensionOf.toLowerCase() == 'png' || extensionOf.toLowerCase() == 'gif') && vendorimage!="")
+    {
+        $(".vendorimageerror").show();
+        return false
+    }
+    
     if($("input").hasClass('error'))
         return false;
 }
@@ -33,34 +44,14 @@ var specialKeys = new Array();
 specialKeys.push(8); //Backspace
 function IsNumeric(e) {
             var keyCode = e.which ? e.which : e.keyCode
-            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1 || keyCode == 9);
             return ret;
         }
 
 </script>
 <body>
     <div class="container_12">
-        <div class="grid_12 header-repeat">
-            <div id="branding">
-                <div class="floatleft">
-                    <img src="img/logo.png" alt="Logo" /></div>
-                <div class="floatright">
-                    <div class="floatleft">
-                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
-                    <div class="floatleft marginleft10">
-                        <ul class="inline-ul floatleft">
-                            <li>Hello <?php echo $_SESSION['username'] ?></li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="post.php?action=logout">Logout</a></li>
-                        </ul>
-                        <br />
-                        <span class="small grey">Last Login: 3 hours ago</span>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-            </div>
-        </div>
+        <?php include 'include/subheader.php'; ?>
         <div class="clear">
         </div>
         <?php include 'include/navpanel.php'; ?>
@@ -71,7 +62,7 @@ function IsNumeric(e) {
             <div class="box round first fullpage">
                 <h2>Add new vendor</h2>
                 <div class="block ">
-                    <form name="addvendor" action="post.php" method="POST" onsubmit="return validateForm()">
+                    <form name="addvendor" action="post.php" method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                     <table class="form">
                         <tr>
                             <td class="col1">
@@ -135,6 +126,23 @@ function IsNumeric(e) {
                             </td>
                             <td>
                                 <input type="text" name="email" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Vendor web address</label>
+                            </td>
+                            <td>
+                                <input type="text" name="webaddress" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Upload venlor image</label>
+                            </td>
+                            <td>
+                                <input type="file" name="vendorimage" />
+                                <span class="error errorspan vendorimageerror" style="display: none;">Please upload an image</span>
                             </td>
                         </tr>
                         <tr>

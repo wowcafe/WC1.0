@@ -1,37 +1,19 @@
 <?php include 'include/header.php'; 
 $sql = 'SELECT 
         `id`,
-        `restaurentName`,
-        `restaurentPinCode`,
-        `restaurentPhone`,
-        `restaurentEmail`
-        FROM `Restaurantlist` 
+        `vendorName`,
+        `vendorPinCode`,
+        `vendorPhone`,
+        `vendorEmail`,
+        `vendorImage`
+        FROM `Vendorlist`
+        WHERE `status`="active"
         ORDER BY `order_index` ASC';
 $query = mysqli_query($conn,$sql);
 ?>
 <body>
     <div class="container_12">
-        <div class="grid_12 header-repeat">
-            <div id="branding">
-                <div class="floatleft">
-                    <img src="img/logo.png" alt="Logo" /></div>
-                <div class="floatright">
-                    <div class="floatleft">
-                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
-                    <div class="floatleft marginleft10">
-                        <ul class="inline-ul floatleft">
-                            <li>Hello <?php echo $_SESSION['username'] ?></li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="post.php?action=logout">Logout</a></li>
-                        </ul>
-                        <br />
-                        <span class="small grey">Last Login: 3 hours ago</span>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-            </div>
-        </div>
+        <?php include 'include/subheader.php'; ?>
         <div class="clear">
         </div>
         <?php include 'include/navpanel.php'; ?>
@@ -47,23 +29,25 @@ $query = mysqli_query($conn,$sql);
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
+                            <th>Image</th>
                             <th>Name</th>
 							<th>PinCode</th>
 							<th>Phone</th>
 							<th>Email</th>
-                            <th>Edit</th>
+                            <th>View Profile</th>
                             <th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
                         <?php while($row = mysqli_fetch_assoc($query)) { ?>
 						<tr class="odd gradeX">
-							<td><?php echo $row['restaurentName'] ?></td>
-							<td><?php echo $row['restaurentPinCode'] ?></td>
-							<td><?php echo $row['restaurentPhone'] ?></td>
-							<td><?php echo $row['restaurentEmail'] ?></td>
-                            <td><a href="edit_vendor.php?vendorID=<?php echo $row['id'] ?>">Edit</a></td>
-                            <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deleteVendor&vendorID=<?php echo $row['id'] ?>">delete</td>
+							<td><img src="<?php echo $row['vendorImage'] ?>" height="30" width="30" /></td>
+                            <td><?php echo $row['vendorName'] ?></td>
+							<td><?php echo $row['vendorPinCode'] ?></td>
+							<td><?php echo $row['vendorPhone'] ?></td>
+							<td><?php echo $row['vendorEmail'] ?></td>
+                            <td><a href="view_vendor.php?selectedvendorid=<?php echo $row['id'] ?>">View profile</a></td>
+                            <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletevendor&vendorID=<?php echo $row['id'] ?>">delete</td>
 						</tr>
                         <?php } ?>
 					</tbody>

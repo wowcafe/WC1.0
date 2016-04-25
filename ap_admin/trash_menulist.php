@@ -23,7 +23,7 @@ $sql = 'SELECT menu.`id`,
                WHERE 
                menu.`menuCategoryId` = category.`id` 
                AND
-               menu.`status` = "active"
+               menu.`status` = "deactive"
                AND                                   
                vendor.`id` = menu.`vendorId`'.$CATwhere.$RESwhere;
 $query = mysqli_query($conn,$sql);
@@ -56,8 +56,7 @@ $rowOfAllCategory       = mysqli_fetch_assoc($queryOfAllCategory);
                                 <th>Name</th>
     							<th>Price</th>
                                 <th>Type</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Restore</th>
     						</tr>
     					</thead>
 					<tbody>
@@ -66,8 +65,7 @@ $rowOfAllCategory       = mysqli_fetch_assoc($queryOfAllCategory);
 							<td><?php echo $row['menuName'] ?></td>
                             <td><?php echo $row['menuPrice'] ?></td>
 							<td><?php echo $row['menuType'] ?></td>                            
-							<td><a href="edit_menu.php?menuID=<?php echo $row['id'] ?>">Edit</a></td>
-                            <td><a onclick="return confirm('Are you sure?')" href="post.php?action=deletemenu&menuID=<?php echo $row['id'] ?>&selectedcatid=<?php echo $_GET['selectedcatid'] ?>&selectedvendorid=<?php echo $_GET['selectedvendorid'] ?>">delete</td>
+							<td><a onclick="return confirm('Are you sure you want to restore the menu?')" href="post.php?action=restoremenu&menuID=<?php echo $row['id'] ?>&selectedcatid=<?php echo $_GET['selectedcatid'] ?>&selectedvendorid=<?php echo $_GET['selectedvendorid'] ?>">Restore</td>
 						</tr>
                         <?php } ?>
 					</tbody>

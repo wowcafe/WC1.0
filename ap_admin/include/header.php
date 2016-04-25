@@ -1,4 +1,7 @@
-<?php include 'connect.php'; ?>
+<?php include 'connect.php';
+if(!isset($_SESSION['adminLogin']) || $_SESSION['adminLogin']!=1)
+    header('Location:index.php');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -8,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/grid.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/layout.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/custom.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css?version=<?php echo time(); ?>" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/nav.css" media="screen" />
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
@@ -26,12 +29,11 @@
     <!-- END: load jquery -->
     <!-- BEGIN: load jqplot -->
     <script type="text/javascript" src="js/table/table.js"></script>
-    <script src="js/setup.js" type="text/javascript"></script>
+    <script src="js/setup.js?version=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
-            setupLeftMenu();
-			setSidebarHeight();
+            setSidebarHeight();
             $('.datatable').dataTable();
 
         });
